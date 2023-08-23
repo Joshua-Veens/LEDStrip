@@ -12,24 +12,12 @@ RGBdriver Driver2(CIN2,DIN2);
 SoftwareSerial BTserial(8, 9); // RX | TX
  
 const long baudRate = 9600; 
-int c = 9999;
-boolean NL = true;
-
-const int redButtonPin = 4;
-const int greenButtonPin = 5;
-const int blueButtonPin = 6;
-const int ledPin = 7;
+char c = ' ';
 
 int red = 0;
 int green = 0;
 int blue = 0;
 
-
-void blink(){
-  digitalWrite(ledPin, HIGH);
-  delay(500);
-  digitalWrite(ledPin, LOW);
-}
 
 void stripOn(){
   /*Function: SetColor()					        */
@@ -38,11 +26,12 @@ void stripOn(){
   /*            blue:0~255						    */
   /*Note: the greater the value,the brighter the LED*/
   Driver1.begin();
-  Driver1.SetColor(255, 35, 0); // red | green | blue
+  Driver1.SetColor(50, 255, 0); //  green | red | blue
   Driver1.end();
   Driver2.begin();
-  Driver2.SetColor(255, 35, 0); // red | green | blue
+  Driver2.SetColor(255, 80, 0); // red | green | blue
   Driver2.end();
+  delay(100);
 }
 
 void stripOff(){
@@ -57,22 +46,18 @@ void stripOff(){
   Driver2.begin();
   Driver2.SetColor(0, 0, 0);
   Driver2.end();
+  delay(100);
 }
 
 void setup() {
-  // put your setup code here, to run once:
-  pinMode(redButtonPin, INPUT_PULLUP);
-  pinMode(greenButtonPin, INPUT_PULLUP);
-  pinMode(blueButtonPin, INPUT_PULLUP);
-  pinMode(ledPin, OUTPUT);
-
+  delay(250);
   Serial.begin(baudRate);
   BTserial.begin(baudRate);
   stripOn();
+  delay(250);
 }
 
 void loop() {
-
   // Read from the Bluetooth module and send to the Arduino Serial Monitor
   if (BTserial.available())
   {
